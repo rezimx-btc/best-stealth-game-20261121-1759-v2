@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="SHADOW PROTOCOL — infiltrate the Meridian Archive, grab 3 data cores per level and reach the exit unseen.">
+<title>SHADOW PROTOCOL — a top-down stealth game</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <h1>SHADOW <span>PROTOCOL</span></h1>
+    <div id="level-name">The Lobby — Level 1</div>
+    <div class="score-box">SCORE <span id="score-value">0</span></div>
+  </header>
+  <main class="layout">
+    <canvas id="game-canvas" width="832" height="544"></canvas>
+    <aside class="panel" aria-label="Detection panel">
+      <h2>DETECTION</h2>
+      <div id="detection-word" class="detection-word calm">CALM</div>
+      <div class="detection-bar"><div id="detection-bar-fill" class="detection-bar-fill calm"></div></div>
+      <h2>GUARDS ON DUTY</h2>
+      <div id="guard-roster"></div>
+      <h2 style="margin-top:10px">LOOT &amp; GOAL</h2>
+      <div class="stat">Data cores: <b id="loot-count">0 / 3 cores</b></div>
+      <div class="stat" id="goal-status">Collect all cores to open the exit</div>
+      <div class="stat" id="smoke-count">Smoke: 3 (Q)</div>
+      <div class="stat" id="rating-line">Rating so far: GHOST (never seen)</div>
+    </aside>
+  </main>
+  <footer class="legend">
+    <b>LEGEND</b>
+    <span><span class="swatch" style="background:#e8c15a"></span>vision cone — calm</span>
+    <span><span class="swatch" style="background:#ff3b30"></span>cone — alert</span>
+    <span><span class="swatch" style="background:#6b4f2a"></span>crate — cover</span>
+    <span><span class="swatch" style="background:#0a0d18;border:1px solid #1b2340"></span>shadow — hides you</span>
+    <span><span class="swatch" style="background:#39d0ff"></span>data core</span>
+    <span><span class="swatch" style="background:#2fd67a"></span>exit — opens at 3 cores</span>
+    <span><span class="swatch" style="background:#ff5d8f"></span>security camera</span>
+  </footer>
+  <div class="controls-line"><b>WASD</b> move &nbsp;·&nbsp; <b>Shift</b> sneak &nbsp;·&nbsp; <b>click</b> throw coin &nbsp;·&nbsp; <b>Q</b> smoke &nbsp;·&nbsp; <b>R</b> restart &nbsp;·&nbsp; <b>M</b> mute</div>
+  <div id="status-line">Stay out of the cones. Shadows hide you.</div>
+</div>
+<script src="js/levels.js"></script>
+<script src="js/guard.js"></script>
+<script src="js/player.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/input.js"></script>
+<script src="js/render.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
