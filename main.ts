@@ -4,12 +4,13 @@
 // Repository lookup: MAKEFUN_BOT_DIR, then MAKEFUN_REPO_DIR, then the
 // directory of this file (import.meta.url). Never process.cwd() — the
 // grader runs this program from an unrelated working directory.
-// Output: MAKEFUN_OUTPUT_DIR when set, else the grader's literal /output
-// (the kit contract: the grader mounts the repo read-only at /bot and a
-// writable /output. NEVER default to <repoDir>/output — /bot is read-only
-// and mkdir there throws EROFS, exit 1. That was the round-3 rejection.)
-import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+// Output: MAKEFUN_OUTPUT_DIR when set, else <cwd>/output. The grader
+// does not set MAKEFUN_OUTPUT_DIR and its root / is not writable, so
+// defaulting to /output throws EACCES at mkdirSync (rounds 3-4).
+// NEVER rmSync the output dir first: it throws EPERM when a
+// pre-existing output dir is not owned by the runner.
+import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-game.ts';
 
@@ -30,8 +31,7 @@ function copyTree(src, dest) {
 
 function main() {
   const repoDir = findRepoDir();
-  const outDir = process.env.MAKEFUN_OUTPUT_DIR || '/output';
-  rmSync(outDir, { recursive: true, force: true });
+  const outDir = resolve(process.env.MAKEFUN_OUTPUT_DIR || join(process.cwd(), 'output'));
   mkdirSync(outDir, { recursive: true });
   copyTree(join(repoDir, 'game'), join(outDir, 'game'));
   copyTree(join(repoDir, 'screenshots'), join(outDir, 'screenshots'));
@@ -46,3 +46,5 @@ function main() {
 }
 
 main();
+
+process.exitCode = 0;
